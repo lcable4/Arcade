@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+    <title>Tic-Tac-Toe</title>
+</head>
+<body>
+    <button id="startBtn" onclick="startGame()">Start Game</button>
+    <div class="messages">
+        <div id="winningText"></div>
+        <button id="restartButton" onclick="restart()">Restart</button>
+    </div>
+    <div class="container" id="board">
+        <div class="cell" id="cell0" onclick="playerMove(this, 0, 0)"></div>
+        <div class="cell" id="cell1" onclick="playerMove(this, 0, 1)"></div>
+        <div class="cell" id="cell2" onclick="playerMove(this, 0, 2)"></div>
+        <div class="cell" id="cell3" onclick="playerMove(this, 1, 0)"></div>
+        <div class="cell" id="cell4" onclick="playerMove(this, 1, 1)"></div>
+        <div class="cell" id="cell5" onclick="playerMove(this, 1, 2)"></div>
+        <div class="cell" id="cell6" onclick="playerMove(this, 2, 0)"></div>
+        <div class="cell" id="cell7" onclick="playerMove(this, 2, 1)"></div>
+        <div class="cell" id="cell8" onclick="playerMove(this, 2, 2)"></div>
+    </div>
+    <div class="scoreTracker">
+        <div class="playerOnePoints" id="oneTotal">Player 1 Games Won: </div>
+        <div class="playerTwoPoints" id="twoTotal">Computer Games Won: </div>
+    </div>
+</body>
+</html>
