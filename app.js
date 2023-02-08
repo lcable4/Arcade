@@ -18,9 +18,8 @@ let playerTotals = {
 }
 
 //Functions
-/*playerMove checks whose turn it is, calculates the win condition
-on every move played, checks for a draw, and adds points to players accordingly
-*/
+
+// forces you to enter name before game starts
 
 function startGame(){
   let person = document.getElementById('userInput').value;
@@ -30,15 +29,10 @@ function startGame(){
   }
   document.getElementById('oneTotal').innerHTML = person + "'s" + " Games Won: " ;
 
-  let cells = document.querySelectorAll('.cell');
-  for (let i = 0; i < cells.length; i++) {
-    cells[i].addEventListener('click', function() {
-      playerMove(this, this.getAttribute('row'), this.getAttribute('col'));
-    });
-  }
 }
 
 //Player move
+/*playerMove checks which cell player clicked on and adds an X to that spot*/
 
 function playerMove (element, row, col) {
 
@@ -48,10 +42,6 @@ function playerMove (element, row, col) {
     return;
   }
   
-  if (!element) {
-    return;
-  }
-
   if (win !== -1) {
     return;
   }
