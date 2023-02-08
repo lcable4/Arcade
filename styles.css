@@ -7,6 +7,11 @@
     background-color: lightsteelblue;
     font-family: "Comfortaa";
 }
+
+.nameEntry {
+    margin: 20px;
+    height: 40px;
+}
 body {
     margin: 0;
     position: relative;
@@ -17,10 +22,10 @@ body {
 }
 
 .container {
-    height: 100vh;
+    height: 80vh;
     width: 100vw;
     display: grid;
-    justify-content: center;
+    justify-content:center;
     align-content: center;
     grid-template-columns: repeat(3, auto);
 }
@@ -63,9 +68,7 @@ body {
 
 .messages {
     font-size: 40px;
-    position: absolute;
     top: 0;
-    margin: 3rem;
     width: 350px;
     height: 120px;
     text-align: center;

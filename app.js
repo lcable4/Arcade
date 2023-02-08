@@ -17,44 +17,97 @@ let playerTotals = {
   playerTwo: 0
 }
 
-let person = prompt("Please enter your name", "Name");
-
 //Functions
 /*playerMove checks whose turn it is, calculates the win condition
-  on every move played, checks for a draw, and adds points to players accordingly
+on every move played, checks for a draw, and adds points to players accordingly
 */
 
 function startGame(){
-  if (person != null) {
-    document.getElementById('oneTotal').innerHTML = person + "'s" + " Games Won:"
+  let person = document.getElementById('userInput').value;
+  if (!person) {
+    alert("Please enter your name");
+    return;
+  }
+  document.getElementById('oneTotal').innerHTML = person + "'s" + " Games Won: " ;
+
+  let cells = document.querySelectorAll('.cell');
+  for (let i = 0; i < cells.length; i++) {
+    cells[i].addEventListener('click', function() {
+      playerMove(this, this.getAttribute('row'), this.getAttribute('col'));
+    });
   }
 }
 
+//Player move
+
 function playerMove (element, row, col) {
 
-  if (element.innerHTML != "") return;
-  if (win != -1) return;
-
-  //if total clicks is 9 board is filled and it is a draw
-  totalClicks ++;
-
-  grid[row][col] = turn;
-
-  if(turn === 1) {
-    element.innerHTML = 'X';
-    document.getElementById('winningText').innerHTML = "O's turn";
-    turn = 2;
-  } else if (turn === 2) {
-    element.innerHTML = 'O';
-    document.getElementById('winningText').innerHTML = "X's turn";
-    turn = 1;
+  let person = document.getElementById('userInput').value;
+  if (!person) {
+    alert("Please enter your name");
+    return;
+  }
+  
+  if (!element) {
+    return;
   }
 
-  //Checking win conditions
+  if (win !== -1) {
+    return;
+  }
+
+  if(turn === 1 && grid[row][col] === -1) {
+    element.innerHTML = 'X';
+    grid[row][col] = turn;
+    document.getElementById('winningText').innerHTML = "Computer's turn";
+    turn = 2;
+  }
+  checkWin();
+  if(turn === 2) {
+    computerMove();
+  }
+}
+
+
+//Computer move
+
+function computerMove() {
+
+  if (win !== -1) {
+    return;
+  }
+  
+  setTimeout(function() {
+    // Generate a random number between 0 and 8 to determine which cell the computer will place its O in
+    let randomIndex = Math.floor(Math.random() * 9);
+
+    // Check if the cell is empty
+    if (grid[Math.floor(randomIndex/3)][randomIndex%3] === -1) {
+      // Place the O in the cell
+      grid[Math.floor(randomIndex/3)][randomIndex%3] = 2;
+
+      // Update the display
+      document.getElementById('cell' + randomIndex).innerHTML = 'O';
+    } else {
+      // If the cell is not empty, call the function again to try again
+      computerMove();
+    }
+  }, 1500); // The number 1500 is the time in milliseconds to wait before making the computer's move
+  document.getElementById('winningText').innerHTML = document.getElementById('userInput').value + "'s" + " turn";
+  turn = 1;
+  checkWin();
+}
+
+function checkWin(){
+  
+  //if total clicks is 9 board is filled and it is a draw
+  totalClicks ++;
+  isPointAdded = false;
+
   for (let i = 0; i < 3; i++) {
       
     //rows
-      if(grid[i][0] == grid[i][1] && grid[i][1] == grid[i][2] && grid[i][0] != -1) {
+    if(grid[i][0] == grid[i][1] && grid[i][1] == grid[i][2] && grid[i][0] != -1) {
         win = grid[i][0];
         break;
       }
@@ -73,25 +126,31 @@ function playerMove (element, row, col) {
     if(grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0] && grid[0][2] != -1) {
       win = grid[1][1];
     };
-
+    
     //If the game was won this changes the html text to add points
-  if(win != -1) {
+  if(win != -1 && !isPointAdded) {
+    isPointAdded = true;
     if(win == 1) {
       playerTotals.playerOne ++;
-      document.getElementById('winningText').innerHTML = person + " has won!";
-      document.getElementById('oneTotal').innerHTML = person + "'s " + ` Games Won: ${playerTotals.playerOne}`;
+      document.getElementById('winningText').innerHTML = document.getElementById('userInput').value + " has won!";
+      document.getElementById('oneTotal').innerHTML = document.getElementById('userInput').value + "'s " + ` Games Won: ${playerTotals.playerOne}`;
     }
     if(win == 2) {
       playerTotals.playerTwo ++;
       document.getElementById('winningText').innerHTML = "Computer has won!";
       document.getElementById('twoTotal').innerHTML = `Computer Games Won: ${playerTotals.playerTwo}`;
     }
+    return;
   }
+
   // Draw condition
   if(totalClicks === 9 && win === -1) {
     document.getElementById('winningText').innerHTML = "It's a draw!";
   }
-}
+  return;
+} 
+
+
 
 //If restart button gets clicked this function is ran and resets the board
 function restart () {
@@ -112,4 +171,3 @@ function restart () {
 
   document.getElementById('winningText').innerHTML = "X's turn";
 }
-
