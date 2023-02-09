@@ -4,7 +4,7 @@
 let turn = 1;
 
 // 1 = VS Computer, 2 = split-screen
-let mode = 1;
+let mode = 2;
 
 // -1 = default game is still in play, 1 = player wins, 2 = computer wins
 let win = -1;
@@ -34,6 +34,7 @@ function gameMode(element) {
     document.getElementById('twoTotal').innerHTML = "Player 2 Games Won: ";
     document.getElementById('userInput2').style.display = 'flex';
   }
+  startGame();
 }
 
 // forces you to enter name before game starts
@@ -46,6 +47,7 @@ function startGame(){
       alert("Please enter your name");
       return;
     }
+    document.getElementById('oneTotal').innerHTML = person + " Games Won:"
     turnSelector();
     
   } else if(mode === 2) {
@@ -53,7 +55,9 @@ function startGame(){
       alert("Please enter both names");
       return;
     }
-    playerMove();
+    document.getElementById('oneTotal').innerHTML = person + " Games Won:";
+    document.getElementById('twoTotal').innerHTML = person2 + " Games Won:";
+    turnSelector();
   }
 };
   
@@ -61,14 +65,23 @@ function startGame(){
 
 function turnSelector () {
     
+  let person = document.getElementById('userInput').value;
+  let person2 = document.getElementById('userInput2').value;
+
   turn = Math.floor(Math.random()* 3); 
   if (turn === 0) {
     turnSelector();
     return
-  } else if (turn === 2){
+  } else if (turn === 2 && mode === 1){
+    document.getElementById('winningText').innerHTML = "Computer goes first"
     computerMove();
     return
-  } else if (turn === 1){
+  } else if (turn === 2 && mode === 2){
+    document.getElementById('winningText').innerHTML = person2 + " goes first"
+    playerMove();
+    return
+  } else if (turn === 1) {
+    document.getElementById('winningText').innerHTML = person + " goes first"
     playerMove();
     return
   }
@@ -79,23 +92,20 @@ function turnSelector () {
 /*playerMove checks which cell player clicked on and adds an X to that spot*/
 
 function playerMove (element, row, col) {
-
+  
   let move = false;
   let person = document.getElementById('userInput').value;
   let person2 = document.getElementById('userInput2').value;
   
-  if(mode === 2) {
-    if (!person || !person2) {
-      alert("Please enter both names");
-      return;
-    }
-  } else {
-    if (!person) {
-      alert("Please enter your name");
-      return;
-    }
+  if (!person) {
+  alert("Please enter your name");
+  return;
+  } else if (mode === 2) {
+  if (!person || !person2) {
+    alert("Please enter both names");
+    return;
   }
-  
+
   if (win !== -1) {
     return;
   }
@@ -106,10 +116,11 @@ function playerMove (element, row, col) {
     totalClicks ++;
     element.innerHTML = 'X';
     grid[row][col] = turn;
+    document.getElementById('winningText').innerHTML = person2 + "'s turn";
     
     if(mode === 2){
       turn = 2;
-    } else {
+    } else  if(mode === 1){
       turn = 2;
       setTimeout(function(){
         computerMove();
@@ -123,18 +134,12 @@ function playerMove (element, row, col) {
     element.innerHTML = 'O';
     grid[row][col] = turn;
     turn = 1;
+    document.getElementById('winningText').innerHTML = person + "'s turn" ;
   } 
   
   checkWin();
-  if(turn === 2) {
-    setTimeout(function() {
-      computerMove();
-    }, 500);
-    document.getElementById('winningText').innerHTML = "Computer's turn";
-    return
-  }
   move = false;
-  document.getElementById('winningText').innerHTML = person + "'s" + " turn";
+  }
 }
 
 
@@ -142,14 +147,14 @@ function playerMove (element, row, col) {
 //Computer move makes move for computer
 
 function computerMove() {
-
+  
+  if (mode === 2) {
+    return
+  }
   let move = false;
 
   if (win !== -1) {
     return;
-  }
-  if (mode !== 1) {
-    return
   }
   
   setTimeout(function() {
@@ -228,11 +233,15 @@ function addPoints () {
     playerTotals.playerOne ++;
     document.getElementById('winningText').innerHTML = document.getElementById('userInput').value + " has won!";
     document.getElementById('oneTotal').innerHTML = document.getElementById('userInput').value + "'s " + ` Games Won: ${playerTotals.playerOne}`;
-    }else if(win == 2) {
+    }else if(win == 2 && mode === 1) {
       playerTotals.playerTwo ++;
       document.getElementById('winningText').innerHTML = "Computer has won!";
       document.getElementById('twoTotal').innerHTML = `Computer Games Won: ${playerTotals.playerTwo}`;
-    } else {
+    } else if(win == 2 && mode === 2){
+      playerTotals.playerTwo ++;
+      document.getElementById('winningText').innerHTML = document.getElementById('userInput2').value + " has won!";
+      document.getElementById('twoTotal').innerHTML = document.getElementById('userInput2').value + "'s " + ` Games Won: ${playerTotals.playerTwo}`;
+    } else { 
       if (win == 0) {
         document.getElementById('winningText').innerHTML = "It's a draw!";
       }
