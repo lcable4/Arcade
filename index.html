@@ -10,14 +10,14 @@
 <body>
     <div class="nameEntry">
         <label for="name">Enter your name</label>
-        <input type="text" id="userInput" required minlength="4" maxlength="8">
+        <input type="text" id="userInput" required minlength="4" maxlength="8" placeholder="player one">
+        <input type="text" id="userInput2" required minlength="4" maxlength="8" placeholder="player two">
         <input id="startBtn" type="submit" onclick="startGame()" required>
         <label for="dropbtn">Select game mode</label>
-        <select name="dropbtn">
-            <option value="vsCPU">VS Computer</option>
+        <select name="dropbtn" onchange="gameMode(this)">
             <option value="splitscreen">Splitscreen</option>
-        </select>
-        
+            <option value="vsCPU" >VS Computer</option>
+        </select> 
     </div>
     <div class="messages">
         <div id="winningText"></div>
