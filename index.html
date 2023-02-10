@@ -10,9 +10,11 @@
 <body>
     <div class="nameEntry">
         <label for="name">Enter your name</label>
-        <input type="text" id="userInput" required minlength="4" maxlength="8" placeholder="player one">
-        <input type="text" id="userInput2" required minlength="4" maxlength="8" placeholder="player two">
-        <input id="startBtn" type="submit" onclick="startGame()" required>
+        <div class="nameInput">
+            <input type="text" id="userInput" required minlength="4" maxlength="8" placeholder="Player One">
+            <input type="text" id="userInput2" required minlength="4" maxlength="8" placeholder="Player Two">
+            <input id="startBtn" type="submit" onclick="startGame()" required>
+        </div>
         <label for="dropbtn">Select game mode</label>
         <select name="dropbtn" onchange="gameMode(this)">
             <option value="splitscreen">Splitscreen</option>

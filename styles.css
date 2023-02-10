@@ -9,13 +9,14 @@
 }
 
 .nameEntry {
-    margin: 20px;
-    height: 40px;
+    height: 100px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     text-align: center;
+    font-size: 20px;
+    border-bottom: 2px solid black;
 }
 body {
     margin: 0;
@@ -26,8 +27,9 @@ body {
     align-items: center;
 }
 
+
 .container {
-    height: 80vh;
+    height: 65vh;
     width: 100vw;
     display: grid;
     justify-content:center;
@@ -73,9 +75,8 @@ body {
 
 .messages {
     font-size: 40px;
-    top: 0;
-    width: 350px;
-    height: 120px;
+    width: 90%;
+    height: 175px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -83,13 +84,32 @@ body {
     align-items: center;
     background-color: lightgray;
 }
+.nameInput {
+    height: auto;
+    width: 400px;
+    display: flex;
+    flex-flow: column wrap;
+    margin: 3px;
+}
+#userInput, #userInput2 {
+    text-align: center;
+}
+#startBtn {
+    height: 30px;
+    cursor: pointer;
+}
+select {
+    cursor: pointer;
+}
 #winningText {
     background-color: lightgray;
     color: firebrick;
+    
 }
 #restartButton {
     width: 90%;
     height: 35px;
+    cursor: pointer;
 }
 .scoreTracker {
     position: absolute;
