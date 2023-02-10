@@ -27,7 +27,7 @@ let playerTotals = {
 function gameMode(element) {
   if (element.value === "vsCPU") {
     mode = 1;
-    document.getElementById('twoTotal').innerHTML = "Computer Games Won: ";
+    document.getElementById('twoTotal').innerHTML = "Computer's Games Won: ";
     document.getElementById('userInput2').style.display = 'none';
   } else if (element.value === "splitscreen") {
     mode = 2;
@@ -165,8 +165,6 @@ function playerMove (element, row, col) {
 }
 
 
-
-
 //Computer move makes move for computer
 
 function computerMove() {
@@ -181,24 +179,27 @@ function computerMove() {
   }
   
   setTimeout(function() {
-    // Generate a random number between 0 and 8 to determine which cell the computer will place its O in
-    let randomIndex = Math.floor(Math.random() * 9);
 
-    // Check if the cell is empty
-    if (grid[Math.floor(randomIndex/3)][randomIndex%3] === -1 && !move) {
-      // Place the O in the cell
-      grid[Math.floor(randomIndex/3)][randomIndex%3] = 2;
+    //Finds a random empty cell
+      let row, col;
+    do {
+      row = Math.floor(Math.random() * 3);
+      col = Math.floor(Math.random() * 3);
+    } while (grid[row][col] !== -1 && !move);
 
-      // Update the display
-      document.getElementById('cell' + randomIndex).innerHTML = 'O';
-      totalClicks ++;
-      move = true
-      document.getElementById('winningText').innerHTML = document.getElementById('userInput').value + "'s" + " turn";
-      checkWin();
-      if (win === -1) {
-        turn = 1;
-        playerMove();
-      }
+    // Place the O in the cell
+    grid[row][col] = 2;
+
+    // Update the display
+    document.getElementById('cell' + (row * 3 + col)).innerHTML = 'O';
+    totalClicks ++;
+    move = true
+    document.getElementById('winningText').innerHTML = document.getElementById('userInput').value + "'s" + " turn";
+    checkWin();
+
+    if (win === -1) {
+      turn = 1;
+      playerMove();
     } else {
       // If the cell is not empty, call the function again to try again
       computerMove();
@@ -249,7 +250,7 @@ function checkWin(){
     if(win != -1) {
       addPoints();
     }
-  } 
+} 
   
   //If the game was won this changes the html text to add points
   
